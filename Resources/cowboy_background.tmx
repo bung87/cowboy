@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="10" tilewidth="16" tileheight="16" nextobjectid="6">
+ <tileset firstgid="1" name="Tile" tilewidth="16" tileheight="16" tilecount="66" columns="11">
+  <image source="Tile.png" width="176" height="96"/>
+ </tileset>
+ <layer name="块层 1" width="17" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyTYmBgkEbDMkCsCsRqWLA6EBsAsSEUGwExExJmRWIjqzNE02MNxDZQbItmBjJmQ+NzQGl2LGp5cGBkM1iAWBLJDBY0OVxmjOKBxQB2SApE
+  </data>
+ </layer>
+ <layer name="块层 2" width="17" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF5ADtgXbACAMAQHgALA==
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object id="5" name="SpawnPoint" x="56" y="120"/>
+ </objectgroup>
+</map>
