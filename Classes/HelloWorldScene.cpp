@@ -6,7 +6,7 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 
@@ -39,32 +39,31 @@ bool HelloWorld::init()
     _tileMap->setPosition(Vec2::ZERO);
 
     _tileMap->setScale(scale);
-    addChild(_tileMap, 1);
+    addChild(_tileMap, 0);
 
     TMXObjectGroup *objects = _tileMap->getObjectGroup("Objects");
 
     auto spawnPoint = objects->getObject("SpawnPoint");
 
-    int x = spawnPoint["x"].asInt();
-    int y = spawnPoint["y"].asInt();
+//    int x = spawnPoint["x"].asInt();
+//    int y = spawnPoint["y"].asInt();
 
 //    Animation* animation = Animation::create();
     Animation* animation;
     Texture2D* textTure = textureCache->addImage("Player_1_Walking_sheet.png");
-    int tw = textTure->getPixelsWide();
-    int th = textTure->getPixelsHigh();
+    float tw = textTure->getContentSize().width;
+    float th = textTure->getContentSize().height;
 
     int cols = 4;
     int rows = 4;
-    int w = tw/cols;
-    int h = th/rows;
+    float w = tw/cols;
+    float h = th/rows;
 //    CCArray  *animFrames=CCArray::create();
     Vector<SpriteFrame*> frames;
-    SpriteFrame* firstFrame;
     for (int i = 12; i < 16; ++i)
     {
 
-        SpriteFrame* frame = SpriteFrame::createWithTexture(textTure, Rect((int)w*(i%cols),(int)h*(i/rows),w,h));
+        SpriteFrame* frame = SpriteFrame::createWithTexture(textTure, Rect(w*(i%cols),h*(i/rows),w,h));
 //        if(i==0){
 //            firstFrame = frame;
 //         }
@@ -75,11 +74,14 @@ bool HelloWorld::init()
     }
     ssize_t index = 0;
 
-    firstFrame = frames.at( index );
-    
+    SpriteFrame* firstFrame = frames.at( index );
+
     Sprite *sp = Sprite::createWithSpriteFrame(firstFrame);
-    sp->setAnchorPoint(Point(0,0));
-    sp->setPosition(Vec2(origin.x +x,origin.y+y));
+    sp->setAnchorPoint(Vec2::ZERO);
+//    float offsetx = (_tileMap->getContentSize().width-visibleSize.width)/2;
+//    float offsety =(_tileMap->getContentSize().height-visibleSize.height)/2;
+//    sp->setPosition(Vec2(origin.x-offsetx+x*w,origin.y-offsety+y*h));
+    sp->setPosition(Vec2(origin.x,origin.y));
     sp->setScale(scale);
     addChild(sp,1);
 
@@ -93,24 +95,31 @@ bool HelloWorld::init()
 
     Texture2D* healthBarTexture = textureCache->addImage("Player_1_Health_Bar.png");
     Sprite *player1HealthBar = Sprite::createWithTexture(healthBarTexture);
-    player1HealthBar->setAnchorPoint(Point(0,0));
-    player1HealthBar->setPosition(Vec2(origin.x,origin.y));
-
+    player1HealthBar->setAnchorPoint(Vec2(0,1));
+//    player1HealthBar->setPosition(Vec2(origin.x,visibleSize.height-healthBarTexture->getContentSize().height-origin.y));
     player1HealthBar->setScale(scale);
+//    player1HealthBar->setPosition(Vec2(0,origin.y+visibleSize.height-player1HealthBar.height));
+    player1HealthBar->setNormalizedPosition(Vec2(0,1));
+
+
     addChild(player1HealthBar,3);
 
     Sprite *weapon = Sprite::createWithTexture(textureCache->addImage("Weapon_Blank_GUI.png"));
-    weapon->setAnchorPoint(Point(0,0));
-    weapon->setPosition(Vec2(origin.x,origin.y+healthBarTexture->getContentSizeInPixels().height*scale));
+    weapon->setAnchorPoint(Vec2::ONE);
+//    weapon->setPosition(Vec2(visibleSize.width,origin.y+visibleSize.height));
+    weapon->setNormalizedPosition(Vec2(1,1));
     weapon->setScale(scale);
     addChild(weapon,3);
-    
+
     Texture2D* healthTexture = textureCache->addImage("Health_bar.png");
     Sprite *health = Sprite::createWithTexture(healthTexture);
-    health->setAnchorPoint(Vec2::ZERO);
-    health->setPosition(Vec2(origin.x-5+(healthBarTexture->getContentSize().width-healthTexture->getContentSize().width)*scale,origin.y+3.75f));
-    health->setScale(scale);
-    addChild(health,3);
+    health->setAnchorPoint(Vec2(1,0));
+    health->setNormalizedPosition(Vec2(1,0));
+//    health->setPosition(Vec2(origin.x-5+(healthBarTexture->getContentSize().width-healthTexture->getContentSize().width)*scale,3.75f+visibleSize.height-healthBarTexture->getContentSize().height-origin.y));
+//    health->setScale(scale);
+    player1HealthBar->addChild(health,3);
+
+
     // frameCache->addSpriteFramesWithFile("boy.plist","boy.png");
     // auto frame_sp = Sprite::createWithSpriteFrameName("boy1.png");
     // this->addChild(frame_sp,2);
@@ -123,8 +132,8 @@ bool HelloWorld::init()
 //                                           "CloseNormal.png",
 //                                           "CloseSelected.png",
 //                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-//	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+
+//  closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
 //                                origin.y + closeItem->getContentSize().height/2));
 
 //    // create menu, it's an autorelease object
@@ -137,15 +146,15 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
 
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+//    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+//
+//    // position the label on the center of the screen
+//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+//                            origin.y + visibleSize.height - label->getContentSize().height));
+//
+//    // add the label as a child to this layer
+//    this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
     // auto sprite = Sprite::create("HelloWorld.png");
@@ -155,7 +164,7 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     // this->addChild(sprite, 0);
-   
+
     return true;
 }
 
