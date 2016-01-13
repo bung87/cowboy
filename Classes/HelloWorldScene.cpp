@@ -33,7 +33,7 @@ bool HelloWorld::init()
 
     TMXTiledMap *_tileMap = TMXTiledMap::create("cowboy_background.tmx");
     _tileMap->setMapSize(visibleSize);
-    int scale = 2;
+    int scale = 4;
 
 
     _tileMap->setPosition(Vec2::ZERO);
@@ -95,8 +95,10 @@ bool HelloWorld::init()
 
     Texture2D* healthBarTexture = textureCache->addImage("Player_1_Health_Bar.png");
     Sprite *player1HealthBar = Sprite::createWithTexture(healthBarTexture);
+
     player1HealthBar->setAnchorPoint(Vec2(0,1));
 //    player1HealthBar->setPosition(Vec2(origin.x,visibleSize.height-healthBarTexture->getContentSize().height-origin.y));
+
     player1HealthBar->setScale(scale);
 //    player1HealthBar->setPosition(Vec2(0,origin.y+visibleSize.height-player1HealthBar.height));
     player1HealthBar->setNormalizedPosition(Vec2(0,1));
@@ -106,18 +108,22 @@ bool HelloWorld::init()
 
     Sprite *weapon = Sprite::createWithTexture(textureCache->addImage("Weapon_Blank_GUI.png"));
     weapon->setAnchorPoint(Vec2::ONE);
+
 //    weapon->setPosition(Vec2(visibleSize.width,origin.y+visibleSize.height));
     weapon->setNormalizedPosition(Vec2(1,1));
+
     weapon->setScale(scale);
     addChild(weapon,3);
 
     Texture2D* healthTexture = textureCache->addImage("Health_bar.png");
     Sprite *health = Sprite::createWithTexture(healthTexture);
+
     health->setAnchorPoint(Vec2(1,0));
     health->setNormalizedPosition(Vec2(1,0));
 //    health->setPosition(Vec2(origin.x-5+(healthBarTexture->getContentSize().width-healthTexture->getContentSize().width)*scale,3.75f+visibleSize.height-healthBarTexture->getContentSize().height-origin.y));
 //    health->setScale(scale);
     player1HealthBar->addChild(health,3);
+
 
 
     // frameCache->addSpriteFramesWithFile("boy.plist","boy.png");
@@ -148,7 +154,7 @@ bool HelloWorld::init()
     // create and initialize a label
 
 //    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-//
+
 //    // position the label on the center of the screen
 //    label->setPosition(Vec2(origin.x + visibleSize.width/2,
 //                            origin.y + visibleSize.height - label->getContentSize().height));
